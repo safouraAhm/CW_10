@@ -42,7 +42,7 @@ public class UserService : IUserService
         {
             string hashedOldPass = HashPassword(oldPass);
             string hasheNewPass = HashPassword(newPass);
-            if (Ram.CurrentUser.ChangePassword(oldPass, newPass))
+            if (Ram.CurrentUser.ChangePassword(hashedOldPass, hasheNewPass))
             {
                 _userRepo.Update(Ram.CurrentUser);
                 return true;
