@@ -4,6 +4,8 @@ using HW.DataBase;
 using HW.Entities;
 using HW.InterFaces;
 using HW.Repositories;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace HW.Services;
 
@@ -16,7 +18,19 @@ public class UserService : IUserService
         _userRepo = new UserDapperRepository();
 
     }
-
+    private string HashPassword(string password)
+    {
+        using (SHA256 sha256 = SHA256.Create())
+        {
+            byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+            StringBuilder builder = new StringBuilder();
+            foreach (byte b in bytes)
+            {
+                builder.Append(b.ToString("x2"));
+            }
+            return builder.ToString();
+        }
+    }
     public bool ChangePassword(string oldPass, string newPass)
     {
         if (Ram.CurrentUser == null)
@@ -24,12 +38,18 @@ public class UserService : IUserService
             throw new Exception("Please First Login");
         }
 
-        if (Ram.CurrentUser.ChangePassword(oldPass, newPass))
+        else
         {
-            _userRepo.Update(Ram.CurrentUser);
-            return true;
+            string hashedOldPass = HashPassword(oldPass);
+            string hasheNewPass = HashPassword(newPass);
+            if (Ram.CurrentUser.ChangePassword(oldPass, newPass))
+            {
+                _userRepo.Update(Ram.CurrentUser);
+                return true;
+            }
+            return false;
         }
-        return false;
+        
     }
     public bool ChangeStatus(string status)
     {
@@ -57,7 +77,8 @@ public class UserService : IUserService
         }
         try
         {
-            if (_userRepo.Get(username).Password == password)
+            string hashedPassword = HashPassword(password);
+            if (_userRepo.Get(username).Password == hashedPassword)
             {
                 Ram.CurrentUser = _userRepo.Get(username);
                 return true;
@@ -87,7 +108,8 @@ public class UserService : IUserService
         }
         catch (Exception)
         {
-            _userRepo.Add(new User() { Id = GenerateId(), UserName = username, Password = password });
+            string hashedPassword = HashPassword(password);
+            _userRepo.Add(new User() { Id = GenerateId(), UserName = username, Password = hashedPassword });
             return true;
         }
     }
