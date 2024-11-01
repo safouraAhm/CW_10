@@ -1,5 +1,4 @@
-﻿using HW.Enums;
-using System.Security.Principal;
+﻿using System.Security.Principal;
 
 namespace HW.Entities;
 
@@ -8,17 +7,17 @@ public class User
     public required int Id { get; init; }
     public required string UserName { get; set; }
     public required string Password { get; set; }
-    public StatusEnum? Status { get; set; } = StatusEnum.NotAvialable;
+    public bool Status { get; set; } = false;
     public bool ChangeStatus(string status)
     {
         if (status == "available")
         {
-            Status = StatusEnum.Available;
+            Status = true;
             return true;
         }
         if (status == "not available")
         {
-            Status = StatusEnum.NotAvialable;
+            Status = false;
             return true;
         }
         else
@@ -39,7 +38,7 @@ public class User
     }
     public override string ToString()
     {
-        string status = Status == StatusEnum.Available ? "available" : "not available";
+        string status = Status == true ? "available" : "not available";
         return $"{UserName} | status: {status}";
     }
 }

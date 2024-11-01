@@ -13,7 +13,7 @@ public class UserService : IUserService
 
     static UserService()
     {
-        _userRepo = new UserFileRepository();
+        _userRepo = new UserDapperRepository();
 
     }
 

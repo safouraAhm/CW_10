@@ -1,4 +1,5 @@
-﻿using HW.InterFaces;
+﻿using HW.Entities;
+using HW.InterFaces;
 using Newtonsoft.Json;
 using System.Reflection;
 
@@ -23,6 +24,7 @@ public class GeneralFileRepository<T> : IGeneralFileRepository<T>
         {
             _path = path;
         }
+
     }
     public List<T> GetAll()
     {
@@ -45,12 +47,22 @@ public class GeneralFileRepository<T> : IGeneralFileRepository<T>
         return item;
     }
 
-    public void Remove(T item)
+    public bool Remove(int id)
     {
         var items = GetAll();
-        var ramItem = GetById(Convert.ToInt32(_propertyInfo.GetValue(item)));
-        items.Remove(ramItem);
-        UpdateList(items);
+        try
+        {
+            var ramItem = GetById(id);
+            items.Remove(ramItem);
+            UpdateList(items);
+            return true;
+        }
+        catch(Exception)
+        {
+            return false;
+        }
+        
+        
     }
     public void UpdateList(List<T> items)
     {

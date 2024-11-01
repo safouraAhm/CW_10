@@ -11,7 +11,7 @@ void MainMenu()
 {
     Console.Clear();
     ColoredConsole.WriteLine("##########################################".DarkGray());
-    ColoredConsole.WriteLine("regetser --username [username] --password [password]".DarkGray());
+    ColoredConsole.WriteLine("regitser --username [username] --password [password]".DarkGray());
     ColoredConsole.WriteLine("login --username [username] --password [password]".DarkGray());
     ColoredConsole.WriteLine("changepassword --old [oldpassword] --new [newpassword]".DarkGray());
     ColoredConsole.WriteLine("change --status [available]".DarkGray());
@@ -25,7 +25,7 @@ void MainMenu()
     var input = Console.ReadLine()?.ToLower().Split(" ");
     switch (input[0])
     {
-        case "regester":
+        case "register":
             RegesterFunc(input);
             break;
         case "login":
@@ -225,3 +225,5 @@ void SearchFunc(string[] input)
     }
 
 }
+
+
