@@ -2,7 +2,7 @@
 
 namespace HW.InterFaces;
 
-public interface IUserRepository : IGeneralFileRepository<User>
+public interface IUserRepository : IGeneralRepository<User>
 {
     public User Get(string username);
     public void Update(User user);

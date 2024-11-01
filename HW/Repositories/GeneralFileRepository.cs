@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace HW.Repositories;
 
-public class GeneralFileRepository<T> : IGeneralFileRepository<T>
+public class GeneralFileRepository<T> : IGeneralRepository<T>
 {
     readonly string _path;
     readonly PropertyInfo? _propertyInfo;

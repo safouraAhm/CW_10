@@ -1,6 +1,6 @@
 ﻿namespace HW.InterFaces;
 
-public interface IGeneralFileRepository<T>
+public interface IGeneralRepository<T>
 {
     void Add(T item);
     List<T> GetAll();
